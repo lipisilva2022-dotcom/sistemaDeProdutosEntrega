@@ -2,35 +2,34 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.time.format.DateTimeFormatter;
+import java.util.Random;
 
 public class Menu {
 
     public static void main(String[] args) {
 
-        // construtor/ entrada de dados
         Scanner sc = new Scanner(System.in);
 
         ArrayList<Pedido> pedidos = new ArrayList<>();
 
+        Random random = new Random();
+
         while (true) {
 
-            // Exibe o menu principal e recebe a opção do usuário
             System.out.println("====ROTACENTER====");
-            System.out.println("1 - Cadatrar pedido");
+            System.out.println("1 - Cadastrar pedido");
             System.out.println("2 - Consultar pedido");
             System.out.println("3 - Atualizar pedido");
-            System.out.println("4 -Alterar status do pedido");
-            System.out.println("5 - voltar");
-            System.out.println("6 - Sair");
+            System.out.println("4 - Alterar status do pedido");
+            System.out.println("5 - Voltar");
+            System.out.println("0 - Sair");
 
-            // Variável para a escolha
             int opcao = sc.nextInt();
             sc.nextLine();
 
-            // Verifica se a opção escolhida é válida ou não válida
             if (opcao == 1) {
 
-                System.out.println("===============================");
+                System.out.println("================================");
                 System.out.println("CADASTRO DE PEDIDOS SELECIONADO");
                 System.out.println();
 
@@ -53,19 +52,58 @@ public class Menu {
                 LocalDate dataDaCompra =
                         LocalDate.parse(dataTexto, formato);
 
-                System.out.println("===============================");
+                // Geração do número único do pedido
+                int numeroPedido;
+                boolean existe;
+
+                do {
+                    numeroPedido = random.nextInt(900000) + 100000;
+
+                    existe = false;
+
+                    for (Pedido pedido : pedidos) {
+
+                        if (pedido.getId() == numeroPedido) {
+                            existe = true;
+                        }
+                    }
+
+                } while (existe);
 
                 Pedido pedido1 =
-                        new Pedido(nome, produto, quantidade, dataDaCompra);
+                        new Pedido(numeroPedido, nome, produto,
+                                quantidade, dataDaCompra);
 
                 pedidos.add(pedido1);
 
-                System.out.println("=====PEDIDO COMPUTADO=====");
+                System.out.println("========PEDIDO COMPUTADO========");
 
             } else if (opcao == 2) {
 
-                System.out.println("OPÇÃO FUNCIONANDO");
-                System.out.println("");
+                System.out.println("-------------------------------");
+                System.out.println("      PEDIDOS CADASTRADOS");
+                System.out.println("-------------------------------");
+
+                for (Pedido pedido : pedidos) {
+
+                    System.out.println(
+                            "Número do pedido: " + pedido.getId());
+
+                    System.out.println(
+                            "Cliente: " + pedido.getNome());
+
+                    System.out.println(
+                            "Produto: " + pedido.getProduto());
+
+                    System.out.println(
+                            "Quantidade: " + pedido.getQuantidade());
+
+                    System.out.println(
+                            "Data prevista da entrega: "
+                                    + pedido.getDataDaCompra().plusDays(15));
+
+                    System.out.println("-------------------------------");
+                }
 
             } else if (opcao == 3) {
 
@@ -79,16 +117,14 @@ public class Menu {
 
                 System.out.println("OPÇÃO FUNCIONANDO");
 
-            } else if (opcao == 6) {
+            } else if (opcao == 0) {
 
                 System.out.println("Saindo...");
                 break;
 
             } else {
 
-                // Caso a opção escolhida não seja válida
                 System.out.println("OPÇÃO INVÁLIDA, ENCERRANDO...");
-
             }
         }
 

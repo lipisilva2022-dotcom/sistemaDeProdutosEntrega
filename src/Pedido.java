@@ -1,26 +1,27 @@
 import java.time.LocalDate;
 
-import java.time.LocalDate;
-
 public class Pedido {
 
     // Atributos
+    private int id;
     private String nome;
     private String produto;
     private int quantidade;
     private LocalDate dataDaCompra;
 
+    public int getId() {
+        return id;
+    }
 
     // Construtor
-    public Pedido(String nome, String produto, int quantidade, LocalDate dataDaCompra) {
+    public Pedido(int id, String nome, String produto, int quantidade, LocalDate dataDaCompra) {
 
         this.nome = nome;
         this.produto = produto;
         this.quantidade = quantidade;
         this.dataDaCompra = dataDaCompra;
-
+        this.id = id;
     }
-
 
     // Getters e Setters
 
@@ -32,7 +33,6 @@ public class Pedido {
         this.nome = nome;
     }
 
-
     public String getProduto() {
         return produto;
     }
@@ -41,7 +41,6 @@ public class Pedido {
         this.produto = produto;
     }
 
-
     public int getQuantidade() {
         return quantidade;
     }
@@ -49,7 +48,6 @@ public class Pedido {
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
     }
-
 
     public LocalDate getDataDaCompra() {
         return dataDaCompra;
