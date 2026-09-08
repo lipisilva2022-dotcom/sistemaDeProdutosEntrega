@@ -19,8 +19,8 @@ public class Menu {
             System.out.println("====ROTACENTER====");
             System.out.println("1 - Cadastrar pedido");
             System.out.println("2 - Consultar pedido");
-            System.out.println("3 - Atualizar pedido");
-            System.out.println("4 - Alterar status do pedido");
+            System.out.println("3 - Atualizar status do pedido");
+            System.out.println("4 - Atualizar pedido");
             System.out.println("5 - Voltar");
             System.out.println("0 - Sair");
 
@@ -102,12 +102,38 @@ public class Menu {
                             "Data prevista da entrega: "
                                     + pedido.getDataDaCompra().plusDays(15));
 
+                    System.out.println(
+                            "Status: " + pedido.getStatus());
+
                     System.out.println("-------------------------------");
                 }
 
             } else if (opcao == 3) {
 
-                System.out.println("OPÇÃO FUNCIONANDO");
+                System.out.println("Digite o número do pedido:");
+                int numeroPedido = sc.nextInt();
+                sc.nextLine();
+
+                for (Pedido pedido : pedidos) {
+
+                    if (pedido.getId() == numeroPedido) {
+
+                        System.out.println("Pedido encontrado!");
+
+                        System.out.println("1 - Entregue");
+
+                        int opcaoStatus = sc.nextInt();
+                        sc.nextLine();
+
+                        if (opcaoStatus == 1) {
+                            pedido.setStatus("ENTREGUE");
+
+
+                        }
+
+                    }
+
+                }
 
             } else if (opcao == 4) {
 
@@ -129,5 +155,7 @@ public class Menu {
         }
 
         sc.close();
+
     }
-}
+
+    }

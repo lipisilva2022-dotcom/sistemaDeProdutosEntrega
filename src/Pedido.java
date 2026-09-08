@@ -8,6 +8,7 @@ public class Pedido {
     private String produto;
     private int quantidade;
     private LocalDate dataDaCompra;
+    private String Status ;
 
     public int getId() {
         return id;
@@ -21,6 +22,7 @@ public class Pedido {
         this.quantidade = quantidade;
         this.dataDaCompra = dataDaCompra;
         this.id = id;
+        this.Status = "PENDENTE";
     }
 
     // Getters e Setters
@@ -55,5 +57,13 @@ public class Pedido {
 
     public void setDataDaCompra(LocalDate dataDaCompra) {
         this.dataDaCompra = dataDaCompra;
+    }
+    
+    public String getStatus(){
+        return Status;
+    }
+
+    public void setStatus(String Status){
+        this.Status = Status;
     }
 }
