@@ -12,16 +12,19 @@ public class Menu {
 
         ArrayList<Pedido> pedidos = new ArrayList<>();
 
+        ArrayList<Cliente> clientes = new ArrayList<>();
+
         Random random = new Random();
 
         while (true) {
 
             System.out.println("====ROTACENTER====");
             System.out.println("1 - Cadastrar pedido");
-            System.out.println("2 - Consultar pedido");
-            System.out.println("3 - Atualizar status do pedido");
-            System.out.println("4 - Atualizar pedido");
-            System.out.println("5 - Voltar");
+            System.out.println("2 - Cadastrar cliente");
+            System.out.println("3 - Consultar pedido");
+            System.out.println("4 - Atualizar status do pedido");
+            System.out.println("5 - Atualizar pedido");
+            System.out.println("6 - Emitir nota provisoria");
             System.out.println("0 - Sair");
 
             int opcao = sc.nextInt();
@@ -35,6 +38,8 @@ public class Menu {
 
                 System.out.println("Digite o nome do cliente:");
                 String nome = sc.nextLine();
+
+                System.out.println("");
 
                 System.out.println("Digite o produto:");
                 String produto = sc.nextLine();
@@ -57,6 +62,7 @@ public class Menu {
                 boolean existe;
 
                 do {
+
                     numeroPedido = random.nextInt(900000) + 100000;
 
                     existe = false;
@@ -71,14 +77,53 @@ public class Menu {
                 } while (existe);
 
                 Pedido pedido1 =
-                        new Pedido(numeroPedido, nome, produto,
-                                quantidade, dataDaCompra);
+                        new Pedido(
+                                numeroPedido,
+                                nome,
+                                produto,
+                                quantidade,
+                                dataDaCompra
+                        );
 
                 pedidos.add(pedido1);
 
                 System.out.println("========PEDIDO COMPUTADO========");
 
             } else if (opcao == 2) {
+
+                System.out.println("--------------------------------");
+                System.out.println("        CADASTRA CLIENTE        ");
+                System.out.println("--------------------------------");
+                System.out.println();
+
+                // Dados do cliente
+
+                System.out.println("Digite o nome cliente:");
+                String nome = sc.nextLine();
+
+                System.out.println("Digite o cpf/cnpj:");
+                String cpfCnpj = sc.nextLine();
+
+                System.out.println("Digite o endereço:");
+                String endereco = sc.nextLine();
+
+                System.out.println("Digite o bairro:");
+                String bairro = sc.nextLine();
+
+                System.out.println("Digite a cidade:");
+                String cidade = sc.nextLine();
+
+                System.out.println("Digite o cep:");
+                String cep = sc.nextLine();
+
+                Cliente cliente =
+                        new Cliente(nome, cpfCnpj, endereco, bairro, cidade, cep);
+
+                clientes.add(cliente);
+
+                System.out.println("========CLIENTE CADASTRADO========");
+
+            } else if (opcao == 3) {
 
                 System.out.println("-------------------------------");
                 System.out.println("      PEDIDOS CADASTRADOS");
@@ -108,7 +153,7 @@ public class Menu {
                     System.out.println("-------------------------------");
                 }
 
-            } else if (opcao == 3) {
+            } else if (opcao == 4) {
 
                 System.out.println("Digite o número do pedido:");
                 int numeroPedido = sc.nextInt();
@@ -126,20 +171,18 @@ public class Menu {
                         sc.nextLine();
 
                         if (opcaoStatus == 1) {
+
                             pedido.setStatus("ENTREGUE");
 
-
                         }
-
                     }
-
                 }
 
-            } else if (opcao == 4) {
+            } else if (opcao == 5) {
 
                 System.out.println("OPÇÃO FUNCIONANDO");
 
-            } else if (opcao == 5) {
+            } else if (opcao == 6) {
 
                 System.out.println("OPÇÃO FUNCIONANDO");
 
@@ -157,5 +200,4 @@ public class Menu {
         sc.close();
 
     }
-
-    }
+}
