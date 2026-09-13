@@ -32,62 +32,9 @@ public class Menu {
 
             if (opcao == 1) {
 
-                System.out.println("================================");
-                System.out.println("CADASTRO DE PEDIDOS SELECIONADO");
-                System.out.println();
+                cadastrarPedido(sc, pedidos, clientes, random);
 
-                System.out.println("Digite o nome do cliente:");
-                String nome = sc.nextLine();
 
-                System.out.println("");
-
-                System.out.println("Digite o produto:");
-                String produto = sc.nextLine();
-
-                System.out.println("Digite a quantidade de sacas:");
-                int quantidade = sc.nextInt();
-                sc.nextLine();
-
-                System.out.println("Digite a data da compra:");
-                String dataTexto = sc.nextLine();
-
-                DateTimeFormatter formato =
-                        DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-                LocalDate dataDaCompra =
-                        LocalDate.parse(dataTexto, formato);
-
-                // Geração do número único do pedido
-                int numeroPedido;
-                boolean existe;
-
-                do {
-
-                    numeroPedido = random.nextInt(900000) + 100000;
-
-                    existe = false;
-
-                    for (Pedido pedido : pedidos) {
-
-                        if (pedido.getId() == numeroPedido) {
-                            existe = true;
-                        }
-                    }
-
-                } while (existe);
-
-                Pedido pedido1 =
-                        new Pedido(
-                                numeroPedido,
-                                nome,
-                                produto,
-                                quantidade,
-                                dataDaCompra
-                        );
-
-                pedidos.add(pedido1);
-
-                System.out.println("========PEDIDO COMPUTADO========");
 
             } else if (opcao == 2) {
 
@@ -198,6 +145,115 @@ public class Menu {
         }
 
         sc.close();
+    }
 
+
+    // Método para cadastrar pedido
+    public static void cadastrarPedido(
+            Scanner sc,
+            ArrayList<Pedido> pedidos,
+            ArrayList<Cliente> clientes,
+            Random random) {
+
+        System.out.println("===== CADASTRO DE PEDIDO =====");
+        System.out.println();
+
+        System.out.println("Cliente já cadastrado?");
+        System.out.println("1 - Sim");
+        System.out.println("2 - Não");
+
+        int clienteJaCadastrado = sc.nextInt();
+        sc.nextLine();
+
+        if (clienteJaCadastrado == 1) {
+
+            System.out.println("Digite o CPF/CNPJ do cliente:");
+
+            String cpfCnpj = sc.nextLine();
+
+            Cliente clienteEncontrado = buscarCliente(clientes, cpfCnpj);
+
+            if (clienteEncontrado == null) {
+
+                System.out.println("Cliente não encontrado!");
+                return;
+            }
+
+            System.out.println("Cliente encontrado: "
+                    + clienteEncontrado.getNome());
+
+            // O cadastro do Pedido continua daqui para baixo.
+            System.out.println("Digite o produto:");
+            String produto = sc.nextLine();
+
+            System.out.println("Digite a quantidade:");
+            int quantidade = sc.nextInt();
+            sc.nextLine();
+
+            System.out.println("Digite a data da compra:");
+            String dataTexto = sc.nextLine();
+
+            DateTimeFormatter formato =
+                    DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+            LocalDate dataDaCompra =
+                    LocalDate.parse(dataTexto, formato);
+
+
+            // Geração do ID
+            int numeroPedido;
+            boolean existe;
+
+            do {
+
+                numeroPedido = random.nextInt(900000) + 100000;
+
+                existe = false;
+
+                for (Pedido pedido : pedidos) {
+
+                    if (pedido.getId() == numeroPedido) {
+                        existe = true;
+                    }
+                }
+
+            } while (existe);
+
+
+            Pedido pedido = new Pedido(
+                    numeroPedido,
+                    clienteEncontrado.getNome(),
+                    produto,
+                    quantidade,
+                    dataDaCompra
+            );
+
+            pedidos.add(pedido);
+
+            System.out.println("Pedido cadastrado!");
+
+
+        } else if (clienteJaCadastrado == 2) {
+
+            System.out.println("Cliente ainda não cadastrado.");
+
+        }
+
+    }
+
+    // Método para buscar cliente
+    private static Cliente buscarCliente(
+            ArrayList<Cliente> clientes,
+            String cpfCnpj) {
+
+        for (Cliente cliente : clientes) {
+
+            if (cpfCnpj.equals(cliente.getCpfCnpj())) {
+
+                return cliente;
+            }
+        }
+
+        return null;
     }
 }

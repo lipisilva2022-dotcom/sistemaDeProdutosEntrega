@@ -10,6 +10,7 @@ public class Pedido {
     private LocalDate dataDaCompra;
     private String Status ;
 
+
     public int getId() {
         return id;
     }
@@ -66,4 +67,6 @@ public class Pedido {
     public void setStatus(String Status){
         this.Status = Status;
     }
+
+
 }
