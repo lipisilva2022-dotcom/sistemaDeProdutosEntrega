@@ -45,33 +45,7 @@ public class Menu {
 
             } else if (opcao == 3) {
 
-                System.out.println("-------------------------------");
-                System.out.println("      PEDIDOS CADASTRADOS");
-                System.out.println("-------------------------------");
-
-                for (Pedido pedido : pedidos) {
-
-                    System.out.println(
-                            "Número do pedido: " + pedido.getId());
-
-                    System.out.println(
-                            "Cliente: " + pedido.getNome());
-
-                    System.out.println(
-                            "Produto: " + pedido.getProduto());
-
-                    System.out.println(
-                            "Quantidade: " + pedido.getQuantidade());
-
-                    System.out.println(
-                            "Data prevista da entrega: "
-                                    + pedido.getDataDaCompra().plusDays(15));
-
-                    System.out.println(
-                            "Status: " + pedido.getStatus());
-
-                    System.out.println("-------------------------------");
-                }
+                consultarPedido(sc, pedidos);
 
             } else if (opcao == 4) {
 
@@ -119,7 +93,6 @@ public class Menu {
 
         sc.close();
     }
-
 
     /*
  Método para cadastrar pedido
@@ -178,6 +151,13 @@ public class Menu {
         int quantidade = sc.nextInt();
         sc.nextLine();
 
+        System.out.println("Digite o valor:");
+        double valor = sc.nextDouble();
+        sc.nextLine();
+
+        double valorTotal = valor * quantidade;
+
+
         System.out.println("Digite a data da compra:");
         String dataTexto = sc.nextLine();
 
@@ -186,6 +166,12 @@ public class Menu {
 
         LocalDate dataDaCompra =
                 LocalDate.parse(dataTexto, formato);
+
+        System.out.println("Digite a data que deseja retirar o pedido:");
+        String dataRetiradaTexto = sc.nextLine();
+
+        LocalDate dataDeRetirada =
+                LocalDate.parse(dataRetiradaTexto, formato);
 
         // Geração do ID
         int numeroPedido;
@@ -211,7 +197,9 @@ public class Menu {
                 clienteEncontrado.getNome(),
                 produto,
                 quantidade,
-                dataDaCompra
+                dataDaCompra,
+                dataDeRetirada,
+                valorTotal
         );
 
         pedidos.add(pedido);
@@ -281,7 +269,51 @@ public class Menu {
         return cliente;
     }
 
+    private static void consultarPedido(Scanner sc, ArrayList<Pedido> pedidos) {
 
+        System.out.println("======== PEDIDO CADASTRADO ========");
+        System.out.println();
+
+        System.out.println("Digite o número do pedido:");
+        int numeroPedido = sc.nextInt();
+        sc.nextLine();
+
+        for (Pedido pedido : pedidos) {
+
+            System.out.println(
+                    "Número do pedido: " + pedido.getId());
+
+            System.out.println(
+                    "Cliente: " + pedido.getNome());
+
+            System.out.println(
+                    "Produto: " + pedido.getProduto());
+
+            System.out.println(
+                    "Quantidade: " + pedido.getQuantidade());
+
+            System.out.println(
+                    "Valor total: R$ " + pedido.getvalorTotal());
+
+            System.out.println(
+                    "Data da compra: " + pedido.getDataDaCompra());
+
+            System.out.println(
+                    "Data de retirada: " + pedido.getDataDeRetirada());
+
+            System.out.println(
+                    "Status: " + pedido.getStatus());
+
+            System.out.println("-------------------------------");
+        }
+
+
+
+
+
+
+
+    }
 
 
 

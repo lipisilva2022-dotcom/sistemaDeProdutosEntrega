@@ -7,7 +7,9 @@ public class Pedido {
     private String nome;
     private String produto;
     private int quantidade;
+    private double valorTotal;
     private LocalDate dataDaCompra;
+    private LocalDate dataDeRetirada;
     private String Status ;
 
 
@@ -16,12 +18,14 @@ public class Pedido {
     }
 
     // Construtor
-    public Pedido(int id, String nome, String produto, int quantidade, LocalDate dataDaCompra) {
+    public Pedido(int id, String nome, String produto, int quantidade, LocalDate dataDaCompra, LocalDate dataDeRetirada, double valorTotal ) {
 
         this.nome = nome;
         this.produto = produto;
         this.quantidade = quantidade;
+        this.valorTotal = valorTotal;
         this.dataDaCompra = dataDaCompra;
+        this.dataDeRetirada = dataDeRetirada;
         this.id = id;
         this.Status = "PENDENTE";
     }
@@ -59,7 +63,15 @@ public class Pedido {
     public void setDataDaCompra(LocalDate dataDaCompra) {
         this.dataDaCompra = dataDaCompra;
     }
-    
+
+    public LocalDate getDataDeRetirada() {
+        return dataDeRetirada;
+    }
+
+    public void setDataDeRetirada(LocalDate dataDeRetirada) {
+        this.dataDeRetirada = dataDeRetirada;
+    }
+
     public String getStatus(){
         return Status;
     }
@@ -68,5 +80,11 @@ public class Pedido {
         this.Status = Status;
     }
 
+    public double getvalorTotal() {
+        return valorTotal;
+    }
 
+    public void setValor(double valorTotal) {
+        this.valorTotal = valorTotal;
+    }
 }
