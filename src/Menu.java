@@ -38,35 +38,8 @@ public class Menu {
 
             } else if (opcao == 2) {
 
-                System.out.println("--------------------------------");
-                System.out.println("        CADASTRA CLIENTE        ");
-                System.out.println("--------------------------------");
-                System.out.println();
+               cadastrarCliente(sc, clientes);
 
-                // Dados do cliente
-
-                System.out.println("Digite o nome cliente:");
-                String nome = sc.nextLine();
-
-                System.out.println("Digite o cpf/cnpj:");
-                String cpfCnpj = sc.nextLine();
-
-                System.out.println("Digite o endereço:");
-                String endereco = sc.nextLine();
-
-                System.out.println("Digite o bairro:");
-                String bairro = sc.nextLine();
-
-                System.out.println("Digite a cidade:");
-                String cidade = sc.nextLine();
-
-                System.out.println("Digite o cep:");
-                String cep = sc.nextLine();
-
-                Cliente cliente =
-                        new Cliente(nome, cpfCnpj, endereco, bairro, cidade, cep);
-
-                clientes.add(cliente);
 
                 System.out.println("========CLIENTE CADASTRADO========");
 
@@ -148,7 +121,9 @@ public class Menu {
     }
 
 
-    // Método para cadastrar pedido
+    /*
+ Método para cadastrar pedido
+ */
     public static void cadastrarPedido(
             Scanner sc,
             ArrayList<Pedido> pedidos,
@@ -165,13 +140,16 @@ public class Menu {
         int clienteJaCadastrado = sc.nextInt();
         sc.nextLine();
 
+        // Variável usada pelos dois caminhos do cadastro.
+        Cliente clienteEncontrado;
+
         if (clienteJaCadastrado == 1) {
 
             System.out.println("Digite o CPF/CNPJ do cliente:");
 
             String cpfCnpj = sc.nextLine();
 
-            Cliente clienteEncontrado = buscarCliente(clientes, cpfCnpj);
+            clienteEncontrado = buscarCliente(clientes, cpfCnpj);
 
             if (clienteEncontrado == null) {
 
@@ -182,66 +160,68 @@ public class Menu {
             System.out.println("Cliente encontrado: "
                     + clienteEncontrado.getNome());
 
-            // O cadastro do Pedido continua daqui para baixo.
-            System.out.println("Digite o produto:");
-            String produto = sc.nextLine();
-
-            System.out.println("Digite a quantidade:");
-            int quantidade = sc.nextInt();
-            sc.nextLine();
-
-            System.out.println("Digite a data da compra:");
-            String dataTexto = sc.nextLine();
-
-            DateTimeFormatter formato =
-                    DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-            LocalDate dataDaCompra =
-                    LocalDate.parse(dataTexto, formato);
-
-
-            // Geração do ID
-            int numeroPedido;
-            boolean existe;
-
-            do {
-
-                numeroPedido = random.nextInt(900000) + 100000;
-
-                existe = false;
-
-                for (Pedido pedido : pedidos) {
-
-                    if (pedido.getId() == numeroPedido) {
-                        existe = true;
-                    }
-                }
-
-            } while (existe);
-
-
-            Pedido pedido = new Pedido(
-                    numeroPedido,
-                    clienteEncontrado.getNome(),
-                    produto,
-                    quantidade,
-                    dataDaCompra
-            );
-
-            pedidos.add(pedido);
-
-            System.out.println("Pedido cadastrado!");
-
-
         } else if (clienteJaCadastrado == 2) {
 
-            System.out.println("Cliente ainda não cadastrado.");
+            clienteEncontrado = cadastrarCliente(sc, clientes);
 
+        } else {
+
+            System.out.println("Opção inválida!");
+            return;
         }
 
+        // O cadastro do pedido continua para os dois caminhos.
+        System.out.println("Digite o produto:");
+        String produto = sc.nextLine();
+
+        System.out.println("Digite a quantidade:");
+        int quantidade = sc.nextInt();
+        sc.nextLine();
+
+        System.out.println("Digite a data da compra:");
+        String dataTexto = sc.nextLine();
+
+        DateTimeFormatter formato =
+                DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        LocalDate dataDaCompra =
+                LocalDate.parse(dataTexto, formato);
+
+        // Geração do ID
+        int numeroPedido;
+        boolean existe;
+
+        do {
+
+            numeroPedido = random.nextInt(900000) + 100000;
+
+            existe = false;
+
+            for (Pedido pedido : pedidos) {
+
+                if (pedido.getId() == numeroPedido) {
+                    existe = true;
+                }
+            }
+
+        } while (existe);
+
+        Pedido pedido = new Pedido(
+                numeroPedido,
+                clienteEncontrado.getNome(),
+                produto,
+                quantidade,
+                dataDaCompra
+        );
+
+        pedidos.add(pedido);
+
+        System.out.println("Pedido cadastrado!");
     }
 
-    // Método para buscar cliente
+    /*
+     Método para buscar cliente
+     */
     private static Cliente buscarCliente(
             ArrayList<Cliente> clientes,
             String cpfCnpj) {
@@ -256,4 +236,58 @@ public class Menu {
 
         return null;
     }
+
+    /*
+     Método para cadastro de clientes
+     */
+    private static Cliente cadastrarCliente(
+            Scanner sc,
+            ArrayList<Cliente> clientes) {
+
+        System.out.println("===== CADASTRO DE CLIENTE =====");
+        System.out.println();
+
+        System.out.println("Digite o nome do cliente");
+        String nome = sc.nextLine();
+
+        System.out.println("Digite o CPF/CNPJ do cliente");
+        String cpfcnpj = sc.nextLine();
+
+        System.out.println("Digite o endereço");
+        String endereco = sc.nextLine();
+
+        System.out.println("Digite o bairro");
+        String bairro = sc.nextLine();
+
+        System.out.println("Digite a cidade");
+        String cidade = sc.nextLine();
+
+        System.out.println("Digite o CEP");
+        String cep = sc.nextLine();
+
+        Cliente cliente = new Cliente(
+                nome,
+                cpfcnpj,
+                endereco,
+                bairro,
+                cidade,
+                cep
+        );
+
+        clientes.add(cliente);
+
+        System.out.println("======== CLIENTE CADASTRADO ========");
+
+        return cliente;
+    }
+
+
+
+
+
+
+
+
+
+
 }
