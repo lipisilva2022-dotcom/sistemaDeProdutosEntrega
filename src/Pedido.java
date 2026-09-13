@@ -10,15 +10,21 @@ public class Pedido {
     private double valorTotal;
     private LocalDate dataDaCompra;
     private LocalDate dataDeRetirada;
-    private String Status ;
-
+    private String Status;
 
     public int getId() {
         return id;
     }
 
     // Construtor
-    public Pedido(int id, String nome, String produto, int quantidade, LocalDate dataDaCompra, LocalDate dataDeRetirada, double valorTotal ) {
+    public Pedido(
+            int id,
+            String nome,
+            String produto,
+            int quantidade,
+            LocalDate dataDaCompra,
+            LocalDate dataDeRetirada,
+            double valorTotal) {
 
         this.nome = nome;
         this.produto = produto;
@@ -56,6 +62,14 @@ public class Pedido {
         this.quantidade = quantidade;
     }
 
+    public double getValorTotal() {
+        return valorTotal;
+    }
+
+    public void setValorTotal(double valorTotal) {
+        this.valorTotal = valorTotal;
+    }
+
     public LocalDate getDataDaCompra() {
         return dataDaCompra;
     }
@@ -72,19 +86,11 @@ public class Pedido {
         this.dataDeRetirada = dataDeRetirada;
     }
 
-    public String getStatus(){
+    public String getStatus() {
         return Status;
     }
 
-    public void setStatus(String Status){
+    public void setStatus(String Status) {
         this.Status = Status;
-    }
-
-    public double getvalorTotal() {
-        return valorTotal;
-    }
-
-    public void setValor(double valorTotal) {
-        this.valorTotal = valorTotal;
     }
 }

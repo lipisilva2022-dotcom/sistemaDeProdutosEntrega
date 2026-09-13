@@ -11,7 +11,6 @@ public class Menu {
         Scanner sc = new Scanner(System.in);
 
         ArrayList<Pedido> pedidos = new ArrayList<>();
-
         ArrayList<Cliente> clientes = new ArrayList<>();
 
         Random random = new Random();
@@ -34,14 +33,9 @@ public class Menu {
 
                 cadastrarPedido(sc, pedidos, clientes, random);
 
-
-
             } else if (opcao == 2) {
 
-               cadastrarCliente(sc, clientes);
-
-
-                System.out.println("========CLIENTE CADASTRADO========");
+                cadastrarCliente(sc, clientes);
 
             } else if (opcao == 3) {
 
@@ -49,28 +43,7 @@ public class Menu {
 
             } else if (opcao == 4) {
 
-                System.out.println("Digite o número do pedido:");
-                int numeroPedido = sc.nextInt();
-                sc.nextLine();
-
-                for (Pedido pedido : pedidos) {
-
-                    if (pedido.getId() == numeroPedido) {
-
-                        System.out.println("Pedido encontrado!");
-
-                        System.out.println("1 - Entregue");
-
-                        int opcaoStatus = sc.nextInt();
-                        sc.nextLine();
-
-                        if (opcaoStatus == 1) {
-
-                            pedido.setStatus("ENTREGUE");
-
-                        }
-                    }
-                }
+                atualizarStatusPedido(sc, pedidos);
 
             } else if (opcao == 5) {
 
@@ -95,8 +68,8 @@ public class Menu {
     }
 
     /*
- Método para cadastrar pedido
- */
+     * Método para cadastrar pedido
+     */
     public static void cadastrarPedido(
             Scanner sc,
             ArrayList<Pedido> pedidos,
@@ -113,7 +86,6 @@ public class Menu {
         int clienteJaCadastrado = sc.nextInt();
         sc.nextLine();
 
-        // Variável usada pelos dois caminhos do cadastro.
         Cliente clienteEncontrado;
 
         if (clienteJaCadastrado == 1) {
@@ -130,8 +102,9 @@ public class Menu {
                 return;
             }
 
-            System.out.println("Cliente encontrado: "
-                    + clienteEncontrado.getNome());
+            System.out.println(
+                    "Cliente encontrado: "
+                            + clienteEncontrado.getNome());
 
         } else if (clienteJaCadastrado == 2) {
 
@@ -143,7 +116,6 @@ public class Menu {
             return;
         }
 
-        // O cadastro do pedido continua para os dois caminhos.
         System.out.println("Digite o produto:");
         String produto = sc.nextLine();
 
@@ -157,7 +129,6 @@ public class Menu {
 
         double valorTotal = valor * quantidade;
 
-
         System.out.println("Digite a data da compra:");
         String dataTexto = sc.nextLine();
 
@@ -167,7 +138,9 @@ public class Menu {
         LocalDate dataDaCompra =
                 LocalDate.parse(dataTexto, formato);
 
-        System.out.println("Digite a data que deseja retirar o pedido:");
+        System.out.println(
+                "Digite a data que deseja retirar o pedido:");
+
         String dataRetiradaTexto = sc.nextLine();
 
         LocalDate dataDeRetirada =
@@ -205,10 +178,11 @@ public class Menu {
         pedidos.add(pedido);
 
         System.out.println("Pedido cadastrado!");
+        System.out.println("Número do pedido: " + pedido.getId());
     }
 
     /*
-     Método para buscar cliente
+     * Método para buscar cliente
      */
     private static Cliente buscarCliente(
             ArrayList<Cliente> clientes,
@@ -226,7 +200,7 @@ public class Menu {
     }
 
     /*
-     Método para cadastro de clientes
+     * Método para cadastro de clientes
      */
     private static Cliente cadastrarCliente(
             Scanner sc,
@@ -269,10 +243,16 @@ public class Menu {
         return cliente;
     }
 
-    private static void consultarPedido(Scanner sc, ArrayList<Pedido> pedidos) {
+    /*
+     * Método para consulta de pedidos
+     */
+    private static void consultarPedido(
+            Scanner sc,
+            ArrayList<Pedido> pedidos) {
 
-        System.out.println("======== PEDIDO CADASTRADO ========");
+        System.out.println("======== CONSULTAR PEDIDO ========");
         System.out.println();
+        System.out.println("-------------------------------");
 
         System.out.println("Digite o número do pedido:");
         int numeroPedido = sc.nextInt();
@@ -280,46 +260,77 @@ public class Menu {
 
         for (Pedido pedido : pedidos) {
 
-            System.out.println(
-                    "Número do pedido: " + pedido.getId());
+            if (pedido.getId() == numeroPedido) {
 
-            System.out.println(
-                    "Cliente: " + pedido.getNome());
+                System.out.println("Pedido encontrado!");
+                System.out.println();
 
-            System.out.println(
-                    "Produto: " + pedido.getProduto());
+                System.out.println(
+                        "Número do pedido: " + pedido.getId());
 
-            System.out.println(
-                    "Quantidade: " + pedido.getQuantidade());
+                System.out.println(
+                        "Cliente: " + pedido.getNome());
 
-            System.out.println(
-                    "Valor total: R$ " + pedido.getvalorTotal());
+                System.out.println(
+                        "Produto: " + pedido.getProduto());
 
-            System.out.println(
-                    "Data da compra: " + pedido.getDataDaCompra());
+                System.out.println(
+                        "Quantidade: " + pedido.getQuantidade());
 
-            System.out.println(
-                    "Data de retirada: " + pedido.getDataDeRetirada());
+                System.out.println(
+                        "Valor total: R$ " + pedido.getValorTotal());
 
-            System.out.println(
-                    "Status: " + pedido.getStatus());
+                System.out.println(
+                        "Data da compra: " + pedido.getDataDaCompra());
 
-            System.out.println("-------------------------------");
+                System.out.println(
+                        "Data de retirada: " + pedido.getDataDeRetirada());
+
+                System.out.println(
+                        "Status: " + pedido.getStatus());
+
+                System.out.println("-------------------------------");
+
+                return;
+            }
         }
 
-
-
-
-
-
-
+        System.out.println("Pedido não encontrado!");
     }
 
+    /*
+     * Método para mudança de status do pedido
+     */
+    private static void atualizarStatusPedido(
+            Scanner sc,
+            ArrayList<Pedido> pedidos) {
 
+        System.out.println("Digite o número do pedido:");
+        int numeroPedido = sc.nextInt();
+        sc.nextLine();
 
+        for (Pedido pedido : pedidos) {
 
+            if (pedido.getId() == numeroPedido) {
 
+                System.out.println("Pedido encontrado!");
 
+                System.out.println("1 - Entregue");
 
+                int opcaoStatus = sc.nextInt();
+                sc.nextLine();
 
+                if (opcaoStatus == 1) {
+
+                    pedido.setStatus("ENTREGUE");
+
+                    System.out.println("Status atualizado!");
+                }
+
+                return;
+            }
+        }
+
+        System.out.println("Pedido não encontrado!");
+    }
 }
