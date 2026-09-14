@@ -13,6 +13,8 @@ public class Menu {
         ArrayList<Pedido> pedidos = new ArrayList<>();
         ArrayList<Cliente> clientes = new ArrayList<>();
 
+
+
         Random random = new Random();
 
         while (true) {
@@ -23,11 +25,10 @@ public class Menu {
             System.out.println("3 - Consultar pedido");
             System.out.println("4 - Atualizar status do pedido");
             System.out.println("5 - Atualizar pedido");
-            System.out.println("6 - Emitir nota provisoria");
+            System.out.println("6 - Emitir nota promisoria");
             System.out.println("0 - Sair");
 
-            int opcao = sc.nextInt();
-            sc.nextLine();
+            int opcao = Entradas.lerInteiro(sc);
 
             if (opcao == 1) {
 
@@ -67,9 +68,6 @@ public class Menu {
         sc.close();
     }
 
-    /*
-     * Método para cadastrar pedido
-     */
     public static void cadastrarPedido(
             Scanner sc,
             ArrayList<Pedido> pedidos,
@@ -83,8 +81,7 @@ public class Menu {
         System.out.println("1 - Sim");
         System.out.println("2 - Não");
 
-        int clienteJaCadastrado = sc.nextInt();
-        sc.nextLine();
+        int clienteJaCadastrado = Entradas.lerInteiro(sc);
 
         Cliente clienteEncontrado;
 
@@ -116,18 +113,52 @@ public class Menu {
             return;
         }
 
-        System.out.println("Digite o produto:");
-        String produto = sc.nextLine();
+        ArrayList<ItemPedido> itemPedidos = new ArrayList<>();
 
-        System.out.println("Digite a quantidade:");
-        int quantidade = sc.nextInt();
-        sc.nextLine();
+        while (true) {
 
-        System.out.println("Digite o valor:");
-        double valor = sc.nextDouble();
-        sc.nextLine();
+            System.out.println("Digite o produto:");
+            String produto = sc.nextLine();
 
-        double valorTotal = valor * quantidade;
+            System.out.println("Digite a quantidade:");
+            int quantidade = Entradas.lerInteiro(sc);
+
+            System.out.println("Digite o valor:");
+            double valor = sc.nextDouble();
+            sc.nextLine();
+
+            ItemPedido item = new ItemPedido(
+                    produto,
+                    quantidade,
+                    valor
+            );
+
+            itemPedidos.add(item);
+
+            System.out.println("===== DESEJA CADASTRA MAIS PRODUTOS =====");
+            System.out.println();
+            System.out.println("1 - Sim");
+            System.out.println("2 - Não");
+
+            int itemPedido = Entradas.lerInteiro(sc);
+
+            while (itemPedido != 1 && itemPedido != 2) {
+
+                System.out.println("⚠️ Digite apenas 1 ou 2!");
+                System.out.println();
+
+                System.out.println("===== DESEJA CADASTRA MAIS PRODUTOS =====");
+                System.out.println();
+                System.out.println("1 - Sim");
+                System.out.println("2 - Não");
+
+                itemPedido = Entradas.lerInteiro(sc);
+            }
+
+            if (itemPedido == 2) {
+                break;
+            }
+        }
 
         System.out.println("Digite a data da compra:");
         String dataTexto = sc.nextLine();
@@ -168,11 +199,9 @@ public class Menu {
         Pedido pedido = new Pedido(
                 numeroPedido,
                 clienteEncontrado.getNome(),
-                produto,
-                quantidade,
                 dataDaCompra,
                 dataDeRetirada,
-                valorTotal
+                itemPedidos
         );
 
         pedidos.add(pedido);
@@ -181,9 +210,6 @@ public class Menu {
         System.out.println("Número do pedido: " + pedido.getId());
     }
 
-    /*
-     * Método para buscar cliente
-     */
     private static Cliente buscarCliente(
             ArrayList<Cliente> clientes,
             String cpfCnpj) {
@@ -199,9 +225,6 @@ public class Menu {
         return null;
     }
 
-    /*
-     * Método para cadastro de clientes
-     */
     private static Cliente cadastrarCliente(
             Scanner sc,
             ArrayList<Cliente> clientes) {
@@ -243,9 +266,6 @@ public class Menu {
         return cliente;
     }
 
-    /*
-     * Método para consulta de pedidos
-     */
     private static void consultarPedido(
             Scanner sc,
             ArrayList<Pedido> pedidos) {
@@ -255,8 +275,7 @@ public class Menu {
         System.out.println("-------------------------------");
 
         System.out.println("Digite o número do pedido:");
-        int numeroPedido = sc.nextInt();
-        sc.nextLine();
+        int numeroPedido = Entradas.lerInteiro(sc);
 
         for (Pedido pedido : pedidos) {
 
@@ -265,29 +284,41 @@ public class Menu {
                 System.out.println("Pedido encontrado!");
                 System.out.println();
 
-                System.out.println(
-                        "Número do pedido: " + pedido.getId());
+                System.out.println("Número do pedido: " + pedido.getId());
+                System.out.println("Cliente: " + pedido.getNome());
+                System.out.println();
 
-                System.out.println(
-                        "Cliente: " + pedido.getNome());
+                System.out.println("Produto              Quantidade        Valor");
+                System.out.println("---------------------------------------------");
 
-                System.out.println(
-                        "Produto: " + pedido.getProduto());
+                double total = 0;
 
-                System.out.println(
-                        "Quantidade: " + pedido.getQuantidade());
+                for (ItemPedido item : pedido.getItens()) {
 
-                System.out.println(
-                        "Valor total: R$ " + pedido.getValorTotal());
+                    double subtotal =
+                            item.getQuantidade() * item.getValor();
 
-                System.out.println(
-                        "Data da compra: " + pedido.getDataDaCompra());
+                    System.out.printf(
+                            "%-20s %-17d R$ %.2f un%n",
+                            item.getProduto(),
+                            item.getQuantidade(),
+                            item.getValor()
+                    );
 
-                System.out.println(
-                        "Data de retirada: " + pedido.getDataDeRetirada());
+                    total += subtotal;
+                }
 
-                System.out.println(
-                        "Status: " + pedido.getStatus());
+                System.out.println("---------------------------------------------");
+
+                System.out.printf(
+                        "TOTAL:                                  R$ %.2f%n",
+                        total
+                );
+
+                System.out.println();
+                System.out.println("Data da compra: " + pedido.getDataDaCompra());
+                System.out.println("Data de retirada: " + pedido.getDataDeRetirada());
+                System.out.println("Status: " + pedido.getStatus());
 
                 System.out.println("-------------------------------");
 
@@ -298,16 +329,12 @@ public class Menu {
         System.out.println("Pedido não encontrado!");
     }
 
-    /*
-     * Método para mudança de status do pedido
-     */
     private static void atualizarStatusPedido(
             Scanner sc,
             ArrayList<Pedido> pedidos) {
 
         System.out.println("Digite o número do pedido:");
-        int numeroPedido = sc.nextInt();
-        sc.nextLine();
+        int numeroPedido = Entradas.lerInteiro(sc);
 
         for (Pedido pedido : pedidos) {
 
@@ -317,8 +344,7 @@ public class Menu {
 
                 System.out.println("1 - Entregue");
 
-                int opcaoStatus = sc.nextInt();
-                sc.nextLine();
+                int opcaoStatus = Entradas.lerInteiro(sc);
 
                 if (opcaoStatus == 1) {
 

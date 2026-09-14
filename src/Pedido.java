@@ -1,42 +1,38 @@
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class Pedido {
 
     // Atributos
     private int id;
     private String nome;
-    private String produto;
-    private int quantidade;
-    private double valorTotal;
     private LocalDate dataDaCompra;
     private LocalDate dataDeRetirada;
     private String Status;
 
-    public int getId() {
-        return id;
-    }
+    private ArrayList<ItemPedido> itens;
 
     // Construtor
     public Pedido(
             int id,
             String nome,
-            String produto,
-            int quantidade,
             LocalDate dataDaCompra,
             LocalDate dataDeRetirada,
-            double valorTotal) {
+            ArrayList<ItemPedido> itens) {
 
+        this.id = id;
         this.nome = nome;
-        this.produto = produto;
-        this.quantidade = quantidade;
-        this.valorTotal = valorTotal;
         this.dataDaCompra = dataDaCompra;
         this.dataDeRetirada = dataDeRetirada;
-        this.id = id;
+        this.itens = itens;
         this.Status = "PENDENTE";
     }
 
     // Getters e Setters
+
+    public int getId() {
+        return id;
+    }
 
     public String getNome() {
         return nome;
@@ -44,30 +40,6 @@ public class Pedido {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public String getProduto() {
-        return produto;
-    }
-
-    public void setProduto(String produto) {
-        this.produto = produto;
-    }
-
-    public int getQuantidade() {
-        return quantidade;
-    }
-
-    public void setQuantidade(int quantidade) {
-        this.quantidade = quantidade;
-    }
-
-    public double getValorTotal() {
-        return valorTotal;
-    }
-
-    public void setValorTotal(double valorTotal) {
-        this.valorTotal = valorTotal;
     }
 
     public LocalDate getDataDaCompra() {
@@ -92,5 +64,13 @@ public class Pedido {
 
     public void setStatus(String Status) {
         this.Status = Status;
+    }
+
+    public ArrayList<ItemPedido> getItens() {
+        return itens;
+    }
+
+    public void setItens(ArrayList<ItemPedido> itens) {
+        this.itens = itens;
     }
 }
