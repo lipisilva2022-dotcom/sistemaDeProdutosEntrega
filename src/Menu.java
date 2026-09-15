@@ -78,19 +78,24 @@ public class Menu {
                     int confirmacao = Entradas.lerInteiro(sc);
 
                     if (confirmacao == 1) {
+
                         continuar = false;
+
                         System.out.println("Saindo...");
 
                     } else if (confirmacao == 2) {
+
                         System.out.println("Voltando para o menu...");
 
                     } else {
+
                         System.out.println("Opção inválida!");
                     }
 
                     break;
 
                 default:
+
                     System.out.println("OPÇÃO INVÁLIDA!");
             }
         }
@@ -126,6 +131,7 @@ public class Menu {
             if (clienteEncontrado == null) {
 
                 System.out.println("Cliente não encontrado!");
+
                 return;
             }
 
@@ -140,6 +146,7 @@ public class Menu {
         } else {
 
             System.out.println("Opção inválida!");
+
             return;
         }
 
@@ -148,12 +155,15 @@ public class Menu {
         while (true) {
 
             System.out.println("Digite o produto:");
+
             String produto = sc.nextLine();
 
             System.out.println("Digite a quantidade:");
+
             int quantidade = Entradas.lerInteiro(sc);
 
             System.out.println("Digite o valor:");
+
             double valor = Entradas.lerDouble(sc);
 
             ItemPedido item = new ItemPedido(
@@ -164,8 +174,11 @@ public class Menu {
 
             itemPedidos.add(item);
 
-            System.out.println("===== DESEJA CADASTRA MAIS PRODUTOS =====");
+            System.out.println(
+                    "===== DESEJA CADASTRA MAIS PRODUTOS =====");
+
             System.out.println();
+
             System.out.println("1 - Sim");
             System.out.println("2 - Não");
 
@@ -176,8 +189,11 @@ public class Menu {
                 System.out.println("⚠️ Digite apenas 1 ou 2!");
                 System.out.println();
 
-                System.out.println("===== DESEJA CADASTRA MAIS PRODUTOS =====");
+                System.out.println(
+                        "===== DESEJA CADASTRA MAIS PRODUTOS =====");
+
                 System.out.println();
+
                 System.out.println("1 - Sim");
                 System.out.println("2 - Não");
 
@@ -185,6 +201,7 @@ public class Menu {
             }
 
             if (itemPedido == 2) {
+
                 break;
             }
         }
@@ -221,6 +238,7 @@ public class Menu {
             for (Pedido pedido : pedidos) {
 
                 if (pedido.getId() == numeroPedido) {
+
                     existe = true;
                 }
             }
@@ -264,22 +282,28 @@ public class Menu {
         System.out.println();
 
         System.out.println("Digite o nome do cliente");
-        String nome = sc.nextLine();
+
+        String nome = Entradas.lerTexto(sc);
 
         System.out.println("Digite o CPF/CNPJ do cliente");
-        String cpfcnpj = sc.nextLine();
+
+        String cpfcnpj = Entradas.lerCpfCnpj(sc);
 
         System.out.println("Digite o endereço");
-        String endereco = sc.nextLine();
+
+        String endereco = Entradas.lerTexto(sc);
 
         System.out.println("Digite o bairro");
-        String bairro = sc.nextLine();
+
+        String bairro = Entradas.lerTexto(sc);
 
         System.out.println("Digite a cidade");
-        String cidade = sc.nextLine();
+
+        String cidade = Entradas.lerTexto(sc);
 
         System.out.println("Digite o CEP");
-        String cep = sc.nextLine();
+
+        String cep = Entradas.lerCep(sc);
 
         Cliente cliente = new Cliente(
                 nome,
@@ -292,7 +316,8 @@ public class Menu {
 
         clientes.add(cliente);
 
-        System.out.println("======== CLIENTE CADASTRADO ========");
+        System.out.println(
+                "======== CLIENTE CADASTRADO ========");
 
         return cliente;
     }
@@ -301,12 +326,15 @@ public class Menu {
             Scanner sc,
             ArrayList<Pedido> pedidos) {
 
-        System.out.println("======== CONSULTAR PEDIDO ========");
+        System.out.println(
+                "======== CONSULTAR PEDIDO ========");
+
         System.out.println();
 
-        System.out.println("-".repeat(31));
+        System.out.println("-".repeat(50));
 
         System.out.println("Digite o número do pedido:");
+
         int numeroPedido = Entradas.lerInteiro(sc);
 
         for (Pedido pedido : pedidos) {
@@ -314,6 +342,7 @@ public class Menu {
             if (pedido.getId() == numeroPedido) {
 
                 System.out.println("Pedido encontrado!");
+
                 System.out.println();
 
                 System.out.println(
@@ -327,28 +356,32 @@ public class Menu {
                 System.out.println();
 
                 System.out.println(
-                        "Produto           Quantidade        Valor");
+                        "PRODUTO                 QUANTIDADE           VALOR");
 
-                System.out.println("-".repeat(45));
+                System.out.println("-".repeat(50));
 
                 double total = 0;
 
                 for (ItemPedido item : pedido.getItens()) {
 
                     double subtotal =
-                            item.getQuantidade() * item.getValor();
+                            item.getQuantidade()
+                                    * item.getValor();
 
                     System.out.printf(
-                            "%-20s %-17d R$ %.2f un%n",
+                            "%-24s %13d %22s%n",
                             item.getProduto(),
                             item.getQuantidade(),
-                            item.getValor()
+                            String.format(
+                                    "R$ %.2f",
+                                    item.getValor()
+                            )
                     );
 
                     total += subtotal;
                 }
 
-                System.out.println("-".repeat(45));
+                System.out.println("-".repeat(50));
 
                 System.out.printf(
                         "TOTAL:                                  R$ %.2f%n",
@@ -394,7 +427,8 @@ public class Menu {
 
                 System.out.println("1 - Entregue");
 
-                int opcaoStatus = Entradas.lerInteiro(sc);
+                int opcaoStatus =
+                        Entradas.lerInteiro(sc);
 
                 if (opcaoStatus == 1) {
 
@@ -414,7 +448,8 @@ public class Menu {
             Scanner sc,
             ArrayList<Pedido> pedidos) {
 
-        System.out.println("======== ATUALIZAR PEDIDO ========");
+        System.out.println(
+                "======== ATUALIZAR PEDIDO ========");
 
         System.out.println("Digite o número do pedido:");
 
@@ -429,8 +464,10 @@ public class Menu {
                 while (continuar) {
 
                     System.out.println("1 - Alterar valor");
-                    System.out.println("2 - Alterar data de retirada");
-                    System.out.println("3 - Alterar quantidade");
+                    System.out.println(
+                            "2 - Alterar data de retirada");
+                    System.out.println(
+                            "3 - Alterar quantidade");
                     System.out.println("0 - Voltar");
 
                     System.out.println("Digite a opção:");
@@ -441,7 +478,8 @@ public class Menu {
 
                         case 1:
 
-                            System.out.println("Digite o novo valor:");
+                            System.out.println(
+                                    "Digite o novo valor:");
 
                             double novoValor =
                                     Entradas.lerDouble(sc);
@@ -450,7 +488,8 @@ public class Menu {
                                     .get(0)
                                     .setValor(novoValor);
 
-                            System.out.println("Valor alterado!");
+                            System.out.println(
+                                    "Valor alterado!");
 
                             break;
 
@@ -488,7 +527,8 @@ public class Menu {
 
                             pedido.getItens()
                                     .get(0)
-                                    .setQuantidade(novaQuantidade);
+                                    .setQuantidade(
+                                            novaQuantidade);
 
                             System.out.println(
                                     "Quantidade alterada!");
@@ -535,10 +575,12 @@ public class Menu {
             ArrayList<Pedido> pedidos) {
 
         System.out.println("=".repeat(58));
+
         System.out.printf(
                 "%17s%s%n",
                 "",
                 "NOTA PROMISSÓRIA");
+
         System.out.println("=".repeat(58));
 
         System.out.println("Digite o número do pedido:");
@@ -599,7 +641,8 @@ public class Menu {
                         "PRODUTO",
                         "QTD",
                         "VL. UNIT.",
-                        "SUBTOTAL");
+                        "SUBTOTAL"
+                );
 
                 System.out.println("-".repeat(58));
 
@@ -626,7 +669,8 @@ public class Menu {
 
                 System.out.printf(
                         "TOTAL R$:                              %.2f%n",
-                        total);
+                        total
+                );
 
                 System.out.println();
 
