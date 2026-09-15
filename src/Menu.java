@@ -13,19 +13,6 @@ public class Menu {
         ArrayList<Pedido> pedidos = new ArrayList<>();
         ArrayList<Cliente> clientes = new ArrayList<>();
 
-        // ================= DADOS DE TESTE =================
-
-        Cliente clienteTeste = new Cliente(
-                "João Teste",
-                "55501571870",
-                "Rua Teste",
-                "Centro",
-                "Casa Branca",
-                "13700000"
-        );
-
-        clientes.add(clienteTeste);
-
         Random random = new Random();
 
         boolean continuar = true;
