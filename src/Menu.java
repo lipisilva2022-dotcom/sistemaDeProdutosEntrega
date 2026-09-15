@@ -13,11 +13,24 @@ public class Menu {
         ArrayList<Pedido> pedidos = new ArrayList<>();
         ArrayList<Cliente> clientes = new ArrayList<>();
 
+        // ================= DADOS DE TESTE =================
 
+        Cliente clienteTeste = new Cliente(
+                "João Teste",
+                "55501571870",
+                "Rua Teste",
+                "Centro",
+                "Casa Branca",
+                "13700000"
+        );
+
+        clientes.add(clienteTeste);
 
         Random random = new Random();
 
-        while (true) {
+        boolean continuar = true;
+
+        while (continuar) {
 
             System.out.println("====ROTACENTER====");
             System.out.println("1 - Cadastrar pedido");
@@ -30,38 +43,55 @@ public class Menu {
 
             int opcao = Entradas.lerInteiro(sc);
 
-            if (opcao == 1) {
+            switch (opcao) {
 
-                cadastrarPedido(sc, pedidos, clientes, random);
+                case 1:
+                    cadastrarPedido(sc, pedidos, clientes, random);
+                    break;
 
-            } else if (opcao == 2) {
+                case 2:
+                    cadastrarCliente(sc, clientes);
+                    break;
 
-                cadastrarCliente(sc, clientes);
+                case 3:
+                    consultarPedido(sc, pedidos);
+                    break;
 
-            } else if (opcao == 3) {
+                case 4:
+                    atualizarStatusPedido(sc, pedidos);
+                    break;
 
-                consultarPedido(sc, pedidos);
+                case 5:
+                    atualizarPedido(sc, pedidos);
+                    break;
 
-            } else if (opcao == 4) {
+                case 6:
+                    emitirNotaPromissoria(sc, pedidos);
+                    break;
 
-                atualizarStatusPedido(sc, pedidos);
+                case 0:
 
-            } else if (opcao == 5) {
+                    System.out.println("Deseja realmente sair?");
+                    System.out.println("1 - Sim");
+                    System.out.println("2 - Não");
 
-                System.out.println("OPÇÃO FUNCIONANDO");
+                    int confirmacao = Entradas.lerInteiro(sc);
 
-            } else if (opcao == 6) {
+                    if (confirmacao == 1) {
+                        continuar = false;
+                        System.out.println("Saindo...");
 
-                System.out.println("OPÇÃO FUNCIONANDO");
+                    } else if (confirmacao == 2) {
+                        System.out.println("Voltando para o menu...");
 
-            } else if (opcao == 0) {
+                    } else {
+                        System.out.println("Opção inválida!");
+                    }
 
-                System.out.println("Saindo...");
-                break;
+                    break;
 
-            } else {
-
-                System.out.println("OPÇÃO INVÁLIDA, ENCERRANDO...");
+                default:
+                    System.out.println("OPÇÃO INVÁLIDA!");
             }
         }
 
@@ -124,8 +154,7 @@ public class Menu {
             int quantidade = Entradas.lerInteiro(sc);
 
             System.out.println("Digite o valor:");
-            double valor = sc.nextDouble();
-            sc.nextLine();
+            double valor = Entradas.lerDouble(sc);
 
             ItemPedido item = new ItemPedido(
                     produto,
@@ -161,6 +190,7 @@ public class Menu {
         }
 
         System.out.println("Digite a data da compra:");
+
         String dataTexto = sc.nextLine();
 
         DateTimeFormatter formato =
@@ -178,6 +208,7 @@ public class Menu {
                 LocalDate.parse(dataRetiradaTexto, formato);
 
         // Geração do ID
+
         int numeroPedido;
         boolean existe;
 
@@ -198,7 +229,7 @@ public class Menu {
 
         Pedido pedido = new Pedido(
                 numeroPedido,
-                clienteEncontrado.getNome(),
+                clienteEncontrado,
                 dataDaCompra,
                 dataDeRetirada,
                 itemPedidos
@@ -272,7 +303,8 @@ public class Menu {
 
         System.out.println("======== CONSULTAR PEDIDO ========");
         System.out.println();
-        System.out.println("-------------------------------");
+
+        System.out.println("-".repeat(31));
 
         System.out.println("Digite o número do pedido:");
         int numeroPedido = Entradas.lerInteiro(sc);
@@ -284,12 +316,20 @@ public class Menu {
                 System.out.println("Pedido encontrado!");
                 System.out.println();
 
-                System.out.println("Número do pedido: " + pedido.getId());
-                System.out.println("Cliente: " + pedido.getNome());
+                System.out.println(
+                        "Número do pedido: "
+                                + pedido.getId());
+
+                System.out.println(
+                        "Cliente: "
+                                + pedido.getCliente().getNome());
+
                 System.out.println();
 
-                System.out.println("Produto              Quantidade        Valor");
-                System.out.println("---------------------------------------------");
+                System.out.println(
+                        "Produto           Quantidade        Valor");
+
+                System.out.println("-".repeat(45));
 
                 double total = 0;
 
@@ -308,7 +348,7 @@ public class Menu {
                     total += subtotal;
                 }
 
-                System.out.println("---------------------------------------------");
+                System.out.println("-".repeat(45));
 
                 System.out.printf(
                         "TOTAL:                                  R$ %.2f%n",
@@ -316,11 +356,20 @@ public class Menu {
                 );
 
                 System.out.println();
-                System.out.println("Data da compra: " + pedido.getDataDaCompra());
-                System.out.println("Data de retirada: " + pedido.getDataDeRetirada());
-                System.out.println("Status: " + pedido.getStatus());
 
-                System.out.println("-------------------------------");
+                System.out.println(
+                        "Data da compra: "
+                                + pedido.getDataDaCompra());
+
+                System.out.println(
+                        "Data de retirada: "
+                                + pedido.getDataDeRetirada());
+
+                System.out.println(
+                        "Status: "
+                                + pedido.getStatus());
+
+                System.out.println("-".repeat(31));
 
                 return;
             }
@@ -334,6 +383,7 @@ public class Menu {
             ArrayList<Pedido> pedidos) {
 
         System.out.println("Digite o número do pedido:");
+
         int numeroPedido = Entradas.lerInteiro(sc);
 
         for (Pedido pedido : pedidos) {
@@ -352,6 +402,245 @@ public class Menu {
 
                     System.out.println("Status atualizado!");
                 }
+
+                return;
+            }
+        }
+
+        System.out.println("Pedido não encontrado!");
+    }
+
+    private static void atualizarPedido(
+            Scanner sc,
+            ArrayList<Pedido> pedidos) {
+
+        System.out.println("======== ATUALIZAR PEDIDO ========");
+
+        System.out.println("Digite o número do pedido:");
+
+        int numeroPedido = Entradas.lerInteiro(sc);
+
+        for (Pedido pedido : pedidos) {
+
+            if (pedido.getId() == numeroPedido) {
+
+                boolean continuar = true;
+
+                while (continuar) {
+
+                    System.out.println("1 - Alterar valor");
+                    System.out.println("2 - Alterar data de retirada");
+                    System.out.println("3 - Alterar quantidade");
+                    System.out.println("0 - Voltar");
+
+                    System.out.println("Digite a opção:");
+
+                    int opcao = Entradas.lerInteiro(sc);
+
+                    switch (opcao) {
+
+                        case 1:
+
+                            System.out.println("Digite o novo valor:");
+
+                            double novoValor =
+                                    Entradas.lerDouble(sc);
+
+                            pedido.getItens()
+                                    .get(0)
+                                    .setValor(novoValor);
+
+                            System.out.println("Valor alterado!");
+
+                            break;
+
+                        case 2:
+
+                            System.out.println(
+                                    "Digite a nova data de retirada:");
+
+                            String novaDataTexto =
+                                    sc.nextLine();
+
+                            DateTimeFormatter formato =
+                                    DateTimeFormatter.ofPattern(
+                                            "dd/MM/yyyy");
+
+                            LocalDate novaData =
+                                    LocalDate.parse(
+                                            novaDataTexto,
+                                            formato);
+
+                            pedido.setDataDeRetirada(novaData);
+
+                            System.out.println(
+                                    "Data de retirada alterada!");
+
+                            break;
+
+                        case 3:
+
+                            System.out.println(
+                                    "Digite a nova quantidade:");
+
+                            int novaQuantidade =
+                                    Entradas.lerInteiro(sc);
+
+                            pedido.getItens()
+                                    .get(0)
+                                    .setQuantidade(novaQuantidade);
+
+                            System.out.println(
+                                    "Quantidade alterada!");
+
+                            break;
+
+                        case 0:
+
+                            System.out.println(
+                                    "Deseja realmente voltar?");
+
+                            System.out.println("1 - Sim");
+                            System.out.println("2 - Não");
+
+                            int confirmacao =
+                                    Entradas.lerInteiro(sc);
+
+                            if (confirmacao == 1) {
+
+                                continuar = false;
+
+                                System.out.println(
+                                        "VOLTANDO PARA O MENU...");
+                            }
+
+                            break;
+
+                        default:
+
+                            System.out.println(
+                                    "OPÇÃO INVÁLIDA!");
+                    }
+                }
+
+                return;
+            }
+        }
+
+        System.out.println("Pedido não encontrado!");
+    }
+
+    private static void emitirNotaPromissoria(
+            Scanner sc,
+            ArrayList<Pedido> pedidos) {
+
+        System.out.println("=".repeat(58));
+        System.out.printf(
+                "%17s%s%n",
+                "",
+                "NOTA PROMISSÓRIA");
+        System.out.println("=".repeat(58));
+
+        System.out.println("Digite o número do pedido:");
+
+        int numeroPedido = Entradas.lerInteiro(sc);
+
+        for (Pedido pedido : pedidos) {
+
+            if (pedido.getId() == numeroPedido) {
+
+                System.out.println();
+                System.out.println();
+
+                System.out.println("=".repeat(58));
+
+                System.out.println(
+                        "NÚMERO DO PEDIDO: "
+                                + pedido.getId());
+
+                System.out.println(
+                        "DATA DA COMPRA: "
+                                + pedido.getDataDaCompra());
+
+                System.out.println();
+
+                System.out.println("-".repeat(58));
+
+                System.out.println(
+                        "CLIENTE: "
+                                + pedido.getCliente().getNome());
+
+                System.out.println(
+                        "CPF/CNPJ: "
+                                + pedido.getCliente().getCpfCnpj());
+
+                System.out.println(
+                        "ENDEREÇO: "
+                                + pedido.getCliente().getEndereco());
+
+                System.out.println(
+                        "BAIRRO: "
+                                + pedido.getCliente().getBairro());
+
+                System.out.println(
+                        "CIDADE: "
+                                + pedido.getCliente().getCidade());
+
+                System.out.println(
+                        "CEP: "
+                                + pedido.getCliente().getCep());
+
+                System.out.println();
+
+                System.out.println("-".repeat(58));
+
+                System.out.printf(
+                        "%-20s %-10s %-15s %-15s%n",
+                        "PRODUTO",
+                        "QTD",
+                        "VL. UNIT.",
+                        "SUBTOTAL");
+
+                System.out.println("-".repeat(58));
+
+                double total = 0;
+
+                for (ItemPedido item : pedido.getItens()) {
+
+                    double subtotal =
+                            item.getQuantidade()
+                                    * item.getValor();
+
+                    System.out.printf(
+                            "%-20s %-10d R$ %-11.2f R$ %.2f%n",
+                            item.getProduto(),
+                            item.getQuantidade(),
+                            item.getValor(),
+                            subtotal
+                    );
+
+                    total += subtotal;
+                }
+
+                System.out.println("-".repeat(58));
+
+                System.out.printf(
+                        "TOTAL R$:                              %.2f%n",
+                        total);
+
+                System.out.println();
+
+                System.out.println("-".repeat(58));
+
+                System.out.println(
+                        "DATA DE RETIRADA: "
+                                + pedido.getDataDeRetirada());
+
+                System.out.println(
+                        "STATUS: "
+                                + pedido.getStatus());
+
+                System.out.println("-".repeat(58));
 
                 return;
             }

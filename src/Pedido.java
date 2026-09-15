@@ -1,11 +1,12 @@
 import java.time.LocalDate;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Pedido {
 
     // Atributos
     private int id;
-    private String nome;
+    private Cliente cliente;
     private LocalDate dataDaCompra;
     private LocalDate dataDeRetirada;
     private String Status;
@@ -15,13 +16,13 @@ public class Pedido {
     // Construtor
     public Pedido(
             int id,
-            String nome,
+            Cliente cliente,
             LocalDate dataDaCompra,
             LocalDate dataDeRetirada,
             ArrayList<ItemPedido> itens) {
 
         this.id = id;
-        this.nome = nome;
+        this.cliente = cliente;
         this.dataDaCompra = dataDaCompra;
         this.dataDeRetirada = dataDeRetirada;
         this.itens = itens;
@@ -34,12 +35,12 @@ public class Pedido {
         return id;
     }
 
-    public String getNome() {
-        return nome;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     public LocalDate getDataDaCompra() {
