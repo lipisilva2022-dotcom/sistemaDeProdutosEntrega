@@ -1,13 +1,26 @@
-public class ItemPedido {
+public class OrderItem {
 
+    // Atributos
+    private int id;
     private String produto;
     private int quantidade;
     private double valor;
 
-    public ItemPedido(String produto, int quantidade, double valor) {
+    // Construtor
+    public OrderItem(String produto, int quantidade, double valor) {
         this.produto = produto;
         this.quantidade = quantidade;
         this.valor = valor;
+    }
+
+    // Getters e Setters
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getProduto() {
