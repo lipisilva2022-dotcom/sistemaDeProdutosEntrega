@@ -627,6 +627,7 @@ public class OrderMenu {
                 "QTD",
                 "VL. UNIT.",
                 "SUBTOTAL"
+
         );
 
         double total = 0;
